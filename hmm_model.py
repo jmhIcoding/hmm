@@ -15,14 +15,14 @@ class HMM_model(object):
         alpha=[]
         _ ={}
         for each_pos in self.PI:
-            _[each_pos]=self.PI.get(each_pos,exp)
+            _[each_pos]=self.PI.get(each_pos,exp) * float(self.B[each_pos].get(Observe_state[0][data_parse.WORD],exp))
             _['___prev___']= each_pos
         alpha.append(_)
         for i in range(1,state_length):
-            _max=0
-            _pos=None
             _ ={}
             for this_pos in self.A:
+                _max=0
+                _pos=None
                 for prev_pos in self.A:
                     p = float(alpha[i-1].get(prev_pos,exp)) * float(self.A[prev_pos].get(this_pos,exp)) * float(self.B[this_pos].get(Observe_state[i][data_parse.WORD],exp))
                     if p > _max:
