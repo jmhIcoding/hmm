@@ -22,15 +22,11 @@ class Text_loader(object):
             line = rawdata[i].split(" ")
             rawdata[i]=[]
             for each in line:
-                if each=='//w':
-                    word='/'
-                    pos='w'
-                else:
-                    try:
-                        word = each.split('/')[WORD]
-                        pos = each.split('/')[POS]
-                    except:
-                        print(each)
+                try:
+                    word = each.rsplit('/',1)[WORD]
+                    pos = each.rsplit('/',1)[POS]
+                except:
+                    print('except',each)
                 rawdata[i].append((word,pos))
                 #每一行,多个(词,词性)对
         #划分训练集,验证集
@@ -134,6 +130,9 @@ class Text_loader(object):
 
 if __name__ == '__main__':
     loader = Text_loader(file="data/raw_data.txt")
-    loader.load_text()
-    loader.generator()
-    loader.save()
+    #loader.load_text()
+    #loader.generator()
+    #loader.save()
+    loader.load()
+    for each in loader.A :
+        print(each)
