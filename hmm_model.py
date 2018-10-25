@@ -51,9 +51,28 @@ class HMM_model(object):
             index -=1
         rst.reverse()
         return rst
+    def check(self,real_pos,predict_pos):
+        right_cnt = 0
+        for i in range(len(real_pos)):
+            if real_pos[i][data_parse.POS] ==predict_pos[i] :
+                right_cnt +=1
+        return right_cnt/(len(real_pos) + exp)
+
 loader = data_parse.Text_loader(file="")
 A,B,PI,validdata=loader.load()
 hmm_predictor = HMM_model(A,B,PI)
 print(validdata[1])
 rst=hmm_predictor.decode(validdata[1])
 print(rst)
+
+print(hmm_predictor.check(validdata[1],rst))
+#valid::::
+right_rate =0
+total_cnt =0
+for line in validdata:
+    pre_pos = hmm_predictor.decode(line)
+    right_rate  += hmm_predictor.check(line,pre_pos)
+    total_cnt += 1
+    print({'right_rate':right_rate/(total_cnt+exp)})
+
+print({'right_rate':right_rate/(len(validdata)+exp)})
